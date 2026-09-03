@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f172a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Got It?" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <title>Got It?</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div><div class="eyebrow">YOUR HOUSE, REMEMBERED</div><h1>Got It?</h1></div>
+      <button id="seedBtn" class="ghost small">Demo data</button>
+    </header>
+
+    <main>
+      <section id="checkView" class="view active">
+        <div class="hero-card">
+          <div class="hero-icon">?</div>
+          <h2>Check before you buy it again.</h2>
+          <p>Ask your house if you already have it.</p>
+          <div class="search-wrap">
+            <input id="searchInput" placeholder="e.g. ketchup, HDMI cable, pool shock" autocomplete="off" />
+            <button id="searchBtn" class="primary">Check</button>
+          </div>
+          <button id="scanSpaceHeroBtn" class="scan-space-cta" type="button"><span class="big-emoji">📸</span><span><b>Scan a Space</b><small>Pantry, fridge, freezer, garage + more</small></span><span>›</span></button>
+          <label class="scan-btn" for="scanInput"><span>📦</span><span>Scan a single item</span></label>
+          <input id="scanInput" type="file" accept="image/*" capture="environment" hidden />
+        </div>
+        <div id="resultCard" class="result-card hidden"></div>
+        <section class="section-block">
+          <div class="section-heading"><h3>Recently remembered</h3><button id="viewAllBtn" class="link-btn">View all</button></div>
+          <div id="recentGrid" class="item-grid"></div>
+        </section>
+      </section>
+
+      <section id="scanView" class="view">
+        <div class="section-heading"><div><div class="eyebrow">VISUAL HOUSE MEMORY</div><h2>Scan a Space</h2></div></div>
+        <div class="space-card">
+          <h3>What are you scanning?</h3>
+          <p class="muted">One photo can add a whole shelf of items to your house memory.</p>
+          <div id="spaceTypes" class="space-types">
+            <button type="button" data-space="Pantry" class="space-type active"><span>🥫</span>Pantry</button>
+            <button type="button" data-space="Fridge" class="space-type"><span>🧊</span>Fridge</button>
+            <button type="button" data-space="Freezer" class="space-type"><span>❄️</span>Freezer</button>
+            <button type="button" data-space="Garage" class="space-type"><span>🧰</span>Garage</button>
+            <button type="button" data-space="Bathroom" class="space-type"><span>🧴</span>Bathroom</button>
+            <button type="button" data-space="Storage" class="space-type"><span>📦</span>Storage</button>
+          </div>
+          <label class="camera-stage" for="spacePhoto">
+            <div id="spacePhotoPreview" class="space-photo-preview">
+              <span class="camera-circle">📷</span>
+              <b>Take a photo</b>
+              <small>or choose one from your library</small>
+            </div>
+          </label>
+          <input id="spacePhoto" type="file" accept="image/*" capture="environment" hidden />
+          <button id="analyzeSpaceBtn" class="primary full" type="button" disabled>Identify what's here</button>
+        </div>
+
+        <div id="scanProgress" class="scan-progress hidden"><div class="spinner"></div><div><b>Looking around…</b><small>Identifying products and estimating quantities</small></div></div>
+
+        <div id="scanResults" class="scan-results hidden">
+          <div class="section-heading compact"><div><div class="eyebrow">FOUND IN THIS PHOTO</div><h3 id="scanResultTitle">Items detected</h3></div><button id="selectAllScan" class="link-btn">Select all</button></div>
+          <div id="detectedList" class="detected-list"></div>
+          <div class="scan-summary"><span id="selectedCount">0 items selected</span><button id="saveScanBtn" class="primary" type="button">Add to my house</button></div>
+        </div>
+      </section>
+
+      <section id="addView" class="view">
+        <div class="section-heading"><div><div class="eyebrow">ADD TO HOUSE MEMORY</div><h2>Remember something</h2></div></div>
+        <form id="itemForm" class="form-card">
+          <label>What is it?<input id="itemName" required placeholder="HDMI cable" /></label>
+          <div class="row"><label>Quantity<input id="itemQty" type="number" min="0" value="1" /></label><label>Category<input id="itemCategory" placeholder="Electronics" /></label></div>
+          <label>Where is it?<input id="itemLocation" required placeholder="Garage cabinet, top shelf" /></label>
+          <label>Notes<textarea id="itemNotes" rows="3" placeholder="Black 6-ft cable, still in package"></textarea></label>
+          <label class="photo-picker" for="itemPhoto">📷 Add a photo</label>
+          <input id="itemPhoto" type="file" accept="image/*" capture="environment" hidden />
+          <div id="photoPreview" class="photo-preview hidden"></div>
+          <button type="submit" class="primary full">Save to my house</button>
+        </form>
+      </section>
+
+      <section id="homeView" class="view">
+        <div class="section-heading"><div><div class="eyebrow">HOUSE MEMORY</div><h2>Everything you've saved</h2></div><button id="clearBtn" class="ghost small danger">Clear</button></div>
+        <div id="inventoryList" class="inventory-list"></div>
+      </section>
+
+      <section id="settingsView" class="view">
+        <div class="section-heading"><div><div class="eyebrow">SETTINGS</div><h2>Got It? Plus</h2></div></div>
+        <div class="upgrade-card"><div class="upgrade-badge">PLUS</div><h3>Your whole household can remember together.</h3><p>Family sharing, unlimited items, automatic visual recognition, receipt import, and smarter similarity search.</p><div class="price">$19.99 <span>/ year</span></div><button class="primary full" type="button" onclick="alert('Payments are disabled in this MVP.')">Start free trial</button></div>
+      </section>
+    </main>
+
+    <nav class="tabbar">
+      <button data-view="checkView" class="tab active"><span>🔎</span><small>Check</small></button>
+      <button data-view="scanView" class="tab"><span>📸</span><small>Scan space</small></button>
+      <button data-view="addView" class="tab"><span>＋</span><small>Add</small></button>
+      <button data-view="homeView" class="tab"><span>🏠</span><small>My stuff</small></button>
+      <button data-view="settingsView" class="tab"><span>⚙️</span><small>Settings</small></button>
+    </nav>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
